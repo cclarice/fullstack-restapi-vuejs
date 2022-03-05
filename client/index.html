@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>REST API</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    [v-cloak] {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="card" id="app" v-cloak>
+    <h1>
+      REST API
+    </h1>
+
+    <form class="card form" @submit.prevent="createContact">
+      <div class="card__body form-group">
+        <label for="name">
+          <small>
+            Name
+          </small>
+        </label>
+        <input v-model="form.name" type="text" id="name" class="input-text">
+      </div>
+      <div class="card__body form-group">
+        <label for="value">
+          <small>
+            Value
+          </small>
+        </label>
+        <input v-model="form.value" type="text" id="value" class="input-text">
+      </div>
+      <button class="button button_primary" type="submit" :disabled="!canCreate">
+        Create
+      </button>
+    </form>
+
+    <div v-if="loading">
+      Loading...
+    </div>
+
+    <div class="card" v-for="contact in contacts" :key="contact.id">
+      <div class="card__body">
+        <h4 class="card__title" :style="{ color: contact.marked ? 'blue' : 'black'}">
+          {{ contact.name }}
+        </h4>
+        <p class="card__text">
+          {{ contact.value }}
+        </p>
+        <button class="button button_primary" @click="markContact(contact.id)" :disabled="contact.marked">
+          Mark
+        </button>
+        <button class="button button_danger" @click="removeContact(contact.id)">
+          Delete
+        </button>
+      </div>
+    </div>
+
+    <div v-if="!loading && !contacts.length">
+      Has no contacts
+    </div>
+  </div>
+  <script type="module" src="frontend.js"></script>
+</body>
+</html>
